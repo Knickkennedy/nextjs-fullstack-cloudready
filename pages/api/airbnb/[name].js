@@ -3,7 +3,8 @@ import clientPromise from "../../../lib/mongodb";
 export default async function handler(req, res) {
   try {
     const { name } = req.query
-    const database = (await clientPromise).db('sample_airbnb')
+    const client = await clientPromise
+    const database = client.db('sample_airbnb')
     const listings = database.collection('listingsAndReviews')
 
     const options = {

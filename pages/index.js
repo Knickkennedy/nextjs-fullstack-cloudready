@@ -1,12 +1,13 @@
 import Head from 'next/head'
 import clientPromise from '../lib/mongodb'
+import Link from 'next/link'
 
-export default function Home({ isConnected }) {
+export default function Home({isConnected, listings}) {
   return (
     <div className="container">
       <Head>
         <title>Create Next App</title>
-        <link rel="icon" href="/favicon.ico" />
+        <link rel="icon" href="/favicon.ico"/>
       </Head>
 
       <main>
@@ -14,14 +15,31 @@ export default function Home({ isConnected }) {
           Welcome to <a href="https://nextjs.org">Next.js with MongoDB!</a>
         </h1>
 
-        {isConnected ? (
-          <h2 className="subtitle">You are connected to MongoDB</h2>
+        { isConnected ? (
+          <>
+            <h2 className="subtitle">You are connected to MongoDB</h2>
+              {
+                listings.map(listing => {
+                  return (
+                    <div key={listing.name}>
+                      <Link href={ {
+                        pathname: `/airbnb/${ encodeURIComponent(listing.name) }`,
+                        query: listing
+                      } }>
+                        <a>Go to { listing.name }</a>
+                      </Link>
+                      <br />
+                    </div>
+                  )
+                })
+              }
+          </>
         ) : (
           <h2 className="subtitle">
-            You are NOT connected to MongoDB. Check the <code>README.md</code>{' '}
+            You are NOT connected to MongoDB. Check the <code>README.md</code>{ ' ' }
             for instructions.
           </h2>
-        )}
+        ) }
 
         <p className="description">
           Get started by editing <code>pages/index.js</code>
@@ -45,16 +63,6 @@ export default function Home({ isConnected }) {
             <h3>Examples &rarr;</h3>
             <p>Discover and deploy boilerplate example Next.js projects.</p>
           </a>
-
-          <a
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className="card"
-          >
-            <h3>Deploy &rarr;</h3>
-            <p>
-              Instantly deploy your Next.js site to a public URL with Vercel.
-            </p>
-          </a>
         </div>
       </main>
 
@@ -64,12 +72,12 @@ export default function Home({ isConnected }) {
           target="_blank"
           rel="noopener noreferrer"
         >
-          Powered by{' '}
-          <img src="/vercel.svg" alt="Vercel Logo" className="logo" />
+          Powered by{ ' ' }
+          <img src="/vercel.svg" alt="Vercel Logo" className="logo"/>
         </a>
       </footer>
 
-      <style jsx>{`
+      <style jsx>{ `
         .container {
           min-height: 100vh;
           padding: 0 0.5rem;
@@ -202,9 +210,9 @@ export default function Home({ isConnected }) {
             flex-direction: column;
           }
         }
-      `}</style>
+      ` }</style>
 
-      <style jsx global>{`
+      <style jsx global>{ `
         html,
         body {
           padding: 0;
@@ -217,30 +225,39 @@ export default function Home({ isConnected }) {
         * {
           box-sizing: border-box;
         }
-      `}</style>
+      ` }</style>
     </div>
   )
 }
 
 export async function getServerSideProps(context) {
   try {
-    await clientPromise
-    // `await clientPromise` will use the default database passed in the MONGODB_URI
-    // However you can use another database (e.g. myDatabase) by replacing the `await clientPromise` with the folloing code:
-    //
-    // `const client = await clientPromise`
-    // `const db = client.db("myDatabase")`
-    //
-    // Then you can execute queries against your database like so:
-    // db.find({}) or any of the MongoDB Node Driver commands
+    const name = {
+      name: 'Ribeira Charming Duplex'
+    }
+    const client = await clientPromise
+    const database = client.db('sample_airbnb')
+    const listingsAndReviews = database.collection('listingsAndReviews')
+
+    const options = {
+      projection: {_id: 0, name: 1, summary: 1},
+      limit: 10
+    }
+
+    const listingList = await listingsAndReviews.find({}, options)
+
+    const listings = await listingList.toArray()
 
     return {
-      props: { isConnected: true },
+      props: {
+        isConnected: true,
+        listings
+      },
     }
   } catch (e) {
     console.error(e)
     return {
-      props: { isConnected: false },
+      props: {isConnected: false},
     }
   }
 }
