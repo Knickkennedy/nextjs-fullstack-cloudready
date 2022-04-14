@@ -15,15 +15,15 @@ Set up a MongoDB database either locally or with [MongoDB Atlas for free](https:
 
 ### Set up environment variables
 
-Copy the `env.local.example` file in this directory to `.env.local` (which will be ignored by Git):
+Copy the `env.example` file in this directory to `.env` (which will be ignored by Git):
 
 ```bash
 cp .env.example .env
 ```
 
-Set each variable on `.env.local`:
+Set each variable on `.env`:
 
-- `MONGODB_URI` - Your MongoDB connection string. If you are using [MongoDB Atlas](https://mongodb.com/atlas) you can find this by clicking the "Connect" button for your cluster.
+- `MONGODB_URI` - Your MongoDB connection string. If you are using [MongoDB Atlas](https://mongodb.com/atlas) you can find this by clicking the "Connect" button for your cluster. Note: When clicking connect you'll need to select a version of node.js to compare against. If you are planning on containerizing this application then you'll need the mongodb uri for node version >= 2.2.
 
 ### Run Next.js in development mode
 
