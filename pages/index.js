@@ -1,51 +1,63 @@
 import Head from 'next/head'
 import clientPromise from '../lib/mongodb'
 import Link from 'next/link'
+import Layout from "../components/layout";
+import utilStyles from '../styles/utils.module.css'
 
-export default function Home({isConnected, listings}) {
+export default function Home({isConnected, listings, clickAmount, increment}) {
   return (
-    <div className="container">
+    <Layout home>
       <Head>
-        <title>Create Next App</title>
+        <title>Next Mongo App</title>
         <link rel="icon" href="/favicon.ico"/>
       </Head>
 
-      <main>
+      <section className={ `utilStyles.headingMd container`}>
         <h1 className="title">
           Welcome to <a href="https://nextjs.org">Next.js with MongoDB!</a>
         </h1>
-
+      </section>
+      <section className={ `utilStyles.headingMd container`}>
+        <p className={utilStyles.lightText}>
+        You clicked this button <strong>{clickAmount}</strong> times! This was passed globally from our app and will appear on subpages.
+      </p>
+      <button onClick={increment}>
+        Click Me
+      </button>
+      </section>
+      <section className={ `${ utilStyles.headingMd } ${ utilStyles.padding1px } container` }>
         { isConnected ? (
           <>
-            <h2 className="subtitle">You are connected to MongoDB</h2>
+            <h2 className={ utilStyles.headingLg }>You are connected to MongoDB</h2>
+            <ul className={ utilStyles.list }>
               {
                 listings.map(listing => {
                   return (
-                    <div key={listing.name}>
+                    <li className={ utilStyles.listItem } key={ listing.name }>
                       <Link href={ {
                         pathname: `/airbnb/${ encodeURIComponent(listing.name) }`,
                         query: listing
                       } }>
                         <a>Go to { listing.name }</a>
                       </Link>
-                      <br />
-                    </div>
+                      <br/>
+                    </li>
                   )
                 })
               }
+            </ul>
           </>
         ) : (
-          <h2 className="subtitle">
+          <h2 className={ utilStyles.headingLg }>
             You are NOT connected to MongoDB. Check the <code>README.md</code>{ ' ' }
             for instructions.
           </h2>
         ) }
-
-        <p className="description">
-          Get started by editing <code>pages/index.js</code>
-        </p>
-
-        <div className="grid">
+      </section>
+      <p className="description">
+        Get started by editing <code>pages/index.js</code>
+      </p>
+       <div className="grid">
           <a href="https://nextjs.org/docs" className="card">
             <h3>Documentation &rarr;</h3>
             <p>Find in-depth information about Next.js features and API.</p>
@@ -64,7 +76,6 @@ export default function Home({isConnected, listings}) {
             <p>Discover and deploy boilerplate example Next.js projects.</p>
           </a>
         </div>
-      </main>
 
       <footer>
         <a
@@ -79,7 +90,6 @@ export default function Home({isConnected, listings}) {
 
       <style jsx>{ `
         .container {
-          min-height: 100vh;
           padding: 0 0.5rem;
           display: flex;
           flex-direction: column;
@@ -165,8 +175,6 @@ export default function Home({isConnected, listings}) {
           align-items: center;
           justify-content: center;
           flex-wrap: wrap;
-
-          max-width: 800px;
           margin-top: 3rem;
         }
 
@@ -179,6 +187,7 @@ export default function Home({isConnected, listings}) {
           text-decoration: none;
           border: 1px solid #eaeaea;
           border-radius: 10px;
+          max-width: 30%;
           transition: color 0.15s ease, border-color 0.15s ease;
         }
 
@@ -226,15 +235,12 @@ export default function Home({isConnected, listings}) {
           box-sizing: border-box;
         }
       ` }</style>
-    </div>
+    </Layout>
   )
 }
 
 export async function getServerSideProps(context) {
   try {
-    const name = {
-      name: 'Ribeira Charming Duplex'
-    }
     const client = await clientPromise
     const database = client.db('sample_airbnb')
     const listingsAndReviews = database.collection('listingsAndReviews')
