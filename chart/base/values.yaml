@@ -45,3 +45,8 @@ partOf: ""
 connectsTo: ""
 
 runtime: ""
+
+databaseSecret:
+  name: mongodb-credentials
+  key: MONGODB_URI
+  optional: false
