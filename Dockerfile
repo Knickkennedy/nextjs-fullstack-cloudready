@@ -9,6 +9,7 @@ ARG source-dir="/"
 
 # If using npm with a `package-lock.json` comment out above and use below instead
 COPY package.json package-lock.json ./
+COPY . .
 RUN npm ci
 
 # Rebuild the source code only when needed
@@ -42,6 +43,7 @@ RUN adduser --system --uid 1001 nextjs
 # COPY --from=builder /app/next.config.js ./
 COPY --from=builder /app/public ./public
 COPY --from=builder /app/package.json ./package.json
+COPY --from=builder /app/ ./
 
 # Automatically leverage output traces to reduce image size
 # https://nextjs.org/docs/advanced-features/output-file-tracing
