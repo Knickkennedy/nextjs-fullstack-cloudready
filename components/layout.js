@@ -26,7 +26,7 @@ export default function Layout({ children, home }) {
         <meta name="twitter:card" content="summary_large_image" />
       </Head>
       <header className={styles.header}>
-
+        welcome to next.js!
       </header>
       <main>
         {children}

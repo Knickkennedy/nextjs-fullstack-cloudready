@@ -4,12 +4,18 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "test": ""
+    "test": "jest --ci"
   },
   "dependencies": {
+    "@shelf/jest-mongodb": "^2.2.1",
     "mongodb": "^4.5.0",
-    "next": "latest",
+    "next": "^12.1.5",
     "react": "^18.0.0",
     "react-dom": "^18.0.0"
+  },
+  "devDependencies": {
+    "@testing-library/jest-dom": "^5.16.4",
+    "@testing-library/react": "^13.1.1",
+    "jest": "^27.5.1"
   }
 }

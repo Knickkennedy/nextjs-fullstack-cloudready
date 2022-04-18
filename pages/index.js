@@ -88,7 +88,7 @@ export default function Home({isConnected, listings, clickAmount, increment}) {
         </a>
       </footer>
 
-      <style jsx>{ `
+      <style jsx="true" >{ `
         .container {
           padding: 0 0.5rem;
           display: flex;
@@ -221,7 +221,7 @@ export default function Home({isConnected, listings, clickAmount, increment}) {
         }
       ` }</style>
 
-      <style jsx global>{ `
+      <style jsx="true" global="true">{ `
         html,
         body {
           padding: 0;
