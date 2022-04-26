@@ -23,7 +23,7 @@ export default function Home({isConnected, listings, clickAmount, increment}) {
   return (
     <Layout home>
       <Head>
-        <title>I love you, nerd!</title>
+        <title>I love you, nerdler!</title>
         <link rel="stylesheet" href="https://use.typekit.net/oov2wcw.css"/>
         <link rel="icon" href="/favicon.ico"/>
       </Head>
