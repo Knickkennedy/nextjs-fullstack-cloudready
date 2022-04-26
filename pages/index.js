@@ -3,16 +3,37 @@ import clientPromise from '../lib/mongodb'
 import Link from 'next/link'
 import Layout from "../components/layout";
 import utilStyles from '../styles/utils.module.css'
+import Countdown from "react-countdown";
+import {useEffect, useState} from "react";
 
 export default function Home({isConnected, listings, clickAmount, increment}) {
+
+  const [quittingDate, setDate] = useState('')
+
+  useEffect(() => {
+    setDate('2022-04-29T10:30:00')
+  }, [quittingDate])
+
+  const renderCountdown = () => {
+    return (
+      quittingDate.length > 1 ? <Countdown date={quittingDate}/> : <></>
+    )
+  }
+
   return (
     <Layout home>
       <Head>
-        <title>Next Mongo App</title>
+        <title>I love you, nerd!</title>
+        <link rel="stylesheet" href="https://use.typekit.net/oov2wcw.css"/>
         <link rel="icon" href="/favicon.ico"/>
       </Head>
 
-      <section className={ `utilStyles.headingMd container`}>
+      <section className={ `utilStyles.headingMd container` }
+      >
+        {renderCountdown()}
+      </section>
+
+      {/*<section className={ `utilStyles.headingMd container`}>
         <h1 className="title">
           Welcome to <a href="https://nextjs.org">Next.js with MongoDB!</a>
         </h1>
@@ -86,9 +107,9 @@ export default function Home({isConnected, listings, clickAmount, increment}) {
           Powered by{ ' ' }
           <img src="/vercel.svg" alt="Vercel Logo" className="logo"/>
         </a>
-      </footer>
+      </footer>*/ }
 
-      <style jsx="true" >{ `
+      <style jsx="true">{ `
         .container {
           padding: 0 0.5rem;
           display: flex;
