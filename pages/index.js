@@ -18,7 +18,7 @@ export default function Home() {
   useEffect(() => {
 
     setUser(session ? session.user.email : 'Knick')
-    const socket = io('http://localhost:3000', {
+    const socket = io(process.env.BASE_URL, {
       path: '/api/socket',
     })
 
