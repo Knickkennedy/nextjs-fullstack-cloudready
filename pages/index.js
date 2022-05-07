@@ -17,14 +17,12 @@ export default function Home() {
 
   useEffect(() => {
     setUser(session ? session.user.email : 'Jess')
-  }, [])
+  }, [session])
 
   useEffect(() => {
     const socket = io(process.env.BASE_URL, {
       path: '/api/socket',
     })
-
-    console.log(socket.id)
 
     socket.on('connect', () => {
       console.log('socket connected', socket.id)
