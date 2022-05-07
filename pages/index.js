@@ -16,8 +16,10 @@ export default function Home() {
   let socket
 
   useEffect(() => {
+    setUser(session ? session.user.email : 'Jess')
+  }, [])
 
-    setUser(session ? session.user.email : 'Knick')
+  useEffect(() => {
     const socket = io(process.env.BASE_URL, {
       path: '/api/socket',
     })
