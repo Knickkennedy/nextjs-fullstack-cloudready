@@ -4,7 +4,7 @@ import styles from './layout.module.css'
 import utilStyles from '../styles/utils.module.css'
 import Link from 'next/link'
 
-export const siteTitle = 'Jess slaps State Farm'
+export const siteTitle = 'Plan your next get away'
 
 export default function Layout({ children, home }) {
   return (
@@ -13,7 +13,7 @@ export default function Layout({ children, home }) {
         <link rel="icon" href="/favicon.ico" />
         <meta
           name="description"
-          content="Look at my girlfriend doing things"
+          content="Maybe we can build an entire app here"
         />
         <meta
           property="og:image"
@@ -25,7 +25,7 @@ export default function Layout({ children, home }) {
         <meta name="twitter:card" content="summary_large_image" />
       </Head>
       <header className={styles.header}>
-        Time until my girlfriend quits her job!
+        Untitled Travel App
       </header>
       <main>
         {children}

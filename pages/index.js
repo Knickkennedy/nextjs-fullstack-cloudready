@@ -1,22 +1,72 @@
 import Head from 'next/head'
 import clientPromise from '../lib/mongodb'
-import Link from 'next/link'
 import Layout from "../components/layout";
-import utilStyles from '../styles/utils.module.css'
-import Countdown from "react-countdown";
-import {useEffect, useState} from "react";
+import {useEffect, useState, useRef} from "react";
+import {useSession, signIn, signOut} from "next-auth/react";
+import io from 'socket.io-client'
 
-export default function Home({isConnected, listings, clickAmount, increment}) {
-
-  const [quittingDate, setDate] = useState('')
+export default function Home() {
+  const {data: session} = useSession()
+  const [input, setInput] = useState('')
+  const [chat, setChat] = useState([])
+  const [message, setMessage] = useState('')
+  const [user, setUser] = useState('')
+  const inputRef = useRef(null)
+  const [connected, setConnected] = useState(false)
+  let socket
 
   useEffect(() => {
-    setDate('2022-04-29T10:30:00')
-  }, [quittingDate])
 
-  const renderCountdown = () => {
+    setUser(session ? session.user.email : 'Knick')
+    const socket = io('http://localhost:3000', {
+      path: '/api/socket',
+    })
+
+    console.log(socket.id)
+
+    socket.on('connect', () => {
+      console.log('socket connected', socket.id)
+      setConnected(true)
+    })
+
+    socket.on('message', (message) => {
+      chat.push(message)
+      setChat([...chat])
+    })
+
+    if (socket) return () => socket.disconnect()
+  }, [])
+
+  const sendMessage = async () => {
+    if (message) {
+      const msg = {
+        user: user,
+        data: message
+      }
+
+      const response = await fetch('/api/chat', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(msg)
+      })
+
+      if(response.ok) setMessage('')
+    }
+
+    inputRef?.current?.focus()
+  }
+
+  const renderUser = () => {
+
     return (
-      quittingDate.length > 1 ? <Countdown date={quittingDate}/> : <></>
+      session ? <>Signed in as { session.user.email } <br/>
+        <button onClick={ () => signOut() }>Sign Out</button>
+      </> : <>
+        Not signed in <br/>
+        <button onClick={ () => signIn() }>Sign In</button>
+      </>
     )
   }
 
@@ -30,84 +80,63 @@ export default function Home({isConnected, listings, clickAmount, increment}) {
 
       <section className={ `utilStyles.headingMd container` }
       >
-        {renderCountdown()}
+        { renderUser() }
       </section>
-
-      {/*<section className={ `utilStyles.headingMd container`}>
-        <h1 className="title">
-          Welcome to <a href="https://nextjs.org">Next.js with MongoDB!</a>
-        </h1>
-      </section>
-      <section className={ `utilStyles.headingMd container`}>
-        <p className={utilStyles.lightText}>
-        You clicked this button <strong>{clickAmount}</strong> times! This was passed globally from our app and will appear on subpages.
-      </p>
-      <button onClick={increment}>
-        Click Me
-      </button>
-      </section>
-      <section className={ `${ utilStyles.headingMd } ${ utilStyles.padding1px } container` }>
-        { isConnected ? (
-          <>
-            <h2 className={ utilStyles.headingLg }>You are connected to MongoDB</h2>
-            <ul className={ utilStyles.list }>
-              {
-                listings.map(listing => {
-                  return (
-                    <li className={ utilStyles.listItem } key={ listing.name }>
-                      <Link href={ {
-                        pathname: `/airbnb/${ encodeURIComponent(listing.name) }`,
-                        query: listing
-                      } }>
-                        <a>Go to { listing.name }</a>
-                      </Link>
-                      <br/>
-                    </li>
-                  )
-                })
-              }
-            </ul>
-          </>
-        ) : (
-          <h2 className={ utilStyles.headingLg }>
-            You are NOT connected to MongoDB. Check the <code>README.md</code>{ ' ' }
-            for instructions.
-          </h2>
-        ) }
-      </section>
-      <p className="description">
-        Get started by editing <code>pages/index.js</code>
-      </p>
-       <div className="grid">
-          <a href="https://nextjs.org/docs" className="card">
-            <h3>Documentation &rarr;</h3>
-            <p>Find in-depth information about Next.js features and API.</p>
-          </a>
-
-          <a href="https://nextjs.org/learn" className="card">
-            <h3>Learn &rarr;</h3>
-            <p>Learn about Next.js in an interactive course with quizzes!</p>
-          </a>
-
-          <a
-            href="https://github.com/vercel/next.js/tree/canary/examples"
-            className="card"
-          >
-            <h3>Examples &rarr;</h3>
-            <p>Discover and deploy boilerplate example Next.js projects.</p>
-          </a>
+      <div className="flex flex-col w-full h-screen">
+        <div className="py-4 text-white  bg-blue-500 sticky top-0">
+          <h1 className="text-center text-2xl font-semibold">Realtime Chat App</h1>
+          <h2 className="mt-2 text-center">in Next.js and Socket.io</h2>
         </div>
-
-      <footer>
-        <a
-          href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Powered by{ ' ' }
-          <img src="/vercel.svg" alt="Vercel Logo" className="logo"/>
-        </a>
-      </footer>*/ }
+        <div className="flex flex-col flex-1 bg-gray-200">
+          <div className="flex-1 p-4 font-mono">
+            { chat.length ? (
+              chat.map((chat, i) => (
+                <div key={ "msg_" + i } className="mt-1">
+                <span>
+                  { chat.user === user ? "Me" : chat.user }
+                </span>
+                  : { chat.data }
+                </div>
+              ))
+            ) : (
+              <div className="text-sm text-center text-gray-400 py-6">
+                No chat messages
+              </div>
+            ) }
+          </div>
+          <div className="bg-gray-400 p-4 h-20 sticky bottom-0">
+            <div className="flex flex-row flex-1 h-full divide-gray-200 divide-x">
+              <div className="pr-2 flex-1">
+                <input
+                  ref={ inputRef }
+                  type="text"
+                  value={ message }
+                  placeholder={ connected ? "Type a message..." : "Connecting..." }
+                  className="w-full h-full rounded shadow border-gray-400 border px-2"
+                  disabled={ !connected }
+                  onChange={ (e) => {
+                    setMessage(e.target.value);
+                  } }
+                  onKeyPress={ (e) => {
+                    if (e.key === "Enter") {
+                      sendMessage();
+                    }
+                  } }
+                />
+              </div>
+              <div className="flex flex-col justify-center items-stretch pl-2">
+                <button
+                  className="bg-blue-500 rounded shadow text-sm text-white h-full px-2"
+                  onClick={ sendMessage }
+                  disabled={ !connected }
+                >
+                  SEND
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
 
       <style jsx="true">{ `
         .container {
