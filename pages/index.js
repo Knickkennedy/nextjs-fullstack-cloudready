@@ -13,14 +13,15 @@ export default function Home() {
   const [user, setUser] = useState('')
   const inputRef = useRef(null)
   const [connected, setConnected] = useState(false)
+  const [clients, setClients] = useState(0)
   let socket
 
   useEffect(() => {
-    setUser(session ? session.user.email : 'Jess')
+    setUser(session ? session.user.name : 'Jess')
   }, [session])
 
   useEffect(() => {
-    const socket = io(process.env.BASE_URL, {
+    socket = io(process.env.BASE_URL, {
       path: '/api/socket',
     })
 
@@ -32,6 +33,11 @@ export default function Home() {
     socket.on('message', (message) => {
       chat.push(message)
       setChat([...chat])
+    })
+
+    socket.on('clients', (clientsCount) => {
+      console.log(clientsCount)
+      setClients(clientsCount)
     })
 
     if (socket) return () => socket.disconnect()
@@ -86,6 +92,7 @@ export default function Home() {
         <div className="py-4 text-white  bg-blue-500 sticky top-0">
           <h1 className="text-center text-2xl font-semibold">Realtime Chat App</h1>
           <h2 className="mt-2 text-center">in Next.js and Socket.io</h2>
+          <h2 className='mt-2 text-center'>Number of people in chat: {clients}</h2>
         </div>
         <div className="flex flex-col flex-1 bg-gray-200">
           <div className="flex-1 p-4 font-mono">
@@ -303,7 +310,6 @@ export async function getServerSideProps(context) {
     const listingList = await listingsAndReviews.find({}, options)
 
     const listings = await listingList.toArray()
-
     return {
       props: {
         isConnected: true,

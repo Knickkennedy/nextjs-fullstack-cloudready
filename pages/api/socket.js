@@ -7,5 +7,8 @@ export default async function SocketHandler(req, res){
     })
   }
 
+  console.log(res.socket.server.io.engine.clientsCount)
+  console.log(res.socket.server.io.of('/').sockets.size)
+
   res.end()
 }
