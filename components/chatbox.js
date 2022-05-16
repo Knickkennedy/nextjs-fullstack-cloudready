@@ -64,7 +64,7 @@ export default function Chatbox(props) {
           <h2 className='mt-2 text-center'>Number of people in chat: {numberOfClients}</h2>
           { chatLog.length ? (
             chatLog.map((chat, i) => (
-              <div key={ "msg_" + i } className={ `mb-2 mx-4 ${chat.user === user ? 'self-end' : ''}` }>
+              <div key={ "msg_" + i } className={ `bg-white p-2 mb-2 mx-4 ${chat.user === user ? 'self-end rounded-l-md rounded-tr-md' : 'rounded-r-md rounded-tl-md'}` }>
                 <span>
                   { chat.user === user ? "" : chat.user + ': ' }
                 </span>
