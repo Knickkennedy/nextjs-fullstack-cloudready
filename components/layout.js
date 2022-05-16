@@ -22,7 +22,7 @@ export default function Layout({ children, home }) {
         <meta name="og:title" content={siteTitle} />
         <meta name="twitter:card" content="summary_large_image" />
       </Head>
-      <main className='min-w-[50%] mb-8'>
+      <main className='min-w-[50%] mb-8 h-full'>
         {children}
       </main>
       {!home && (
