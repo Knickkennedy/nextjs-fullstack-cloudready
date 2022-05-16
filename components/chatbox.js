@@ -66,9 +66,9 @@ export default function Chatbox(props) {
             chatLog.map((chat, i) => (
               <div key={ "msg_" + i } className={ `mb-2 mx-4 ${chat.user === user ? 'self-end' : ''}` }>
                 <span>
-                  { chat.user === user ? "" : chat.user }
+                  { chat.user === user ? "" : chat.user + ': ' }
                 </span>
-                : { chat.data }
+                { chat.data }
               </div>
             ))
           ) : (
