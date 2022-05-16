@@ -23,7 +23,7 @@ export default function Home(props) {
         <button className='bg-blue-500 rounded shadow text-sm text-white h-full px-2 m-4' onClick={ () => signOut() }>Sign Out</button>
       </> : <>
         Not signed in <br/>
-        <button className='bg-blue-500 rounded shadow text-sm text-white h-full px-2' onClick={ () => signIn() }>Sign In</button>
+        <button className='bg-blue-500 rounded shadow text-sm text-white h-full px-2 m-4' onClick={ () => signIn() }>Sign In</button>
       </>
     )
   }
