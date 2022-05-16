@@ -59,7 +59,7 @@ export default function Chatbox(props) {
   }
 
   return (
-      <div className="flex flex-col flex-1 bg-gray-200 rounded-b-lg">
+      <div className="flex flex-col flex-1 bg-gray-200 rounded-b-lg overflow-auto">
         <div className="flex flex-1 flex-col font-mono justify-end">
           <h2 className='mt-2 text-center'>Number of people in chat: {numberOfClients}</h2>
           { chatLog.length ? (
