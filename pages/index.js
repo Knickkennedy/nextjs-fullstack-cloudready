@@ -15,15 +15,18 @@ export default function Home(props) {
   }, [session])
 
 
-
   const renderUser = () => {
 
     return (
       session ? <>Signed in as { session.user.email } <br/>
-        <button className='bg-blue-500 rounded shadow text-sm text-white h-full px-2 m-4' onClick={ () => signOut() }>Sign Out</button>
+        <button className='bg-blue-500 rounded shadow text-sm text-white h-full px-2 m-4'
+                onClick={ () => signOut() }>Sign Out
+        </button>
       </> : <>
         Not signed in <br/>
-        <button className='bg-blue-500 rounded shadow text-sm text-white h-full px-2 m-4' onClick={ () => signIn() }>Sign In</button>
+        <button className='bg-blue-500 rounded shadow text-sm text-white h-full px-2 m-4'
+                onClick={ () => signIn() }>Sign In
+        </button>
       </>
     )
   }
@@ -40,12 +43,12 @@ export default function Home(props) {
       >
         { renderUser() }
       </section>
-      <div className="flex flex-col w-full h-full">
+      <div className='flex flex-col w-full h-full'>
         <div className="py-4 text-white  bg-blue-500 sticky top-0 rounded-t-lg">
           <h1 className="text-center text-2xl font-semibold">Untitled Travel App</h1>
           <h2 className="mt-2 text-center">Chat Room</h2>
         </div>
-        <Chatbox user={user} />
+        <Chatbox user={ user }/>
       </div>
 
       <style jsx="true">{ `
