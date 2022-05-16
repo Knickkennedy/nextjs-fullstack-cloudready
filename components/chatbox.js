@@ -60,11 +60,11 @@ export default function Chatbox(props) {
 
   return (
       <div className="flex flex-col flex-1 bg-gray-200 rounded-b-lg">
-        <div className="flex-1 p-4 font-mono">
+        <div className="flex flex-1 flex-col font-mono justify-end">
           <h2 className='mt-2 text-center'>Number of people in chat: {numberOfClients}</h2>
           { chatLog.length ? (
             chatLog.map((chat, i) => (
-              <div key={ "msg_" + i } className="mt-1">
+              <div key={ "msg_" + i } className={ `mb-2 mx-4 ${chat.user === user ? 'self-end' : ''}` }>
                 <span>
                   { chat.user === user ? "Me" : chat.user }
                 </span>
