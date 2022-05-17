@@ -74,7 +74,7 @@ export default function Chatbox(props) {
       <KeyboardAvoidingView
         behavior={ Platform.OS === 'ios' ? 'padding' : 'height' }
         style={ style }
-        keyboardVerticalOffset={ 64 }
+        keyboardVerticalOffset={ 0 }
       >
         <div className='flex flex-auto flex-col-reverse font-mono overflow-auto h-40 max-h-40'>
           { chatLog.length ? (
