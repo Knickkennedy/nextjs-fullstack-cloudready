@@ -74,9 +74,9 @@ export default function Chatbox(props) {
       <KeyboardAvoidingView
         behavior={ Platform.OS === 'ios' ? 'padding' : 'height' }
         style={ style }
-        keyboardVerticalOffset={ 0 }
+        keyboardVerticalOffset={ 64 }
       >
-        <div className='flex flex-1 flex-col-reverse font-mono overflow-auto h-40 max-h-40'>
+        <div className='flex flex-auto flex-col-reverse font-mono overflow-auto h-40 max-h-40'>
           { chatLog.length ? (
             chatLog.map((chat, i) => (
               <div key={ "msg_" + i }
