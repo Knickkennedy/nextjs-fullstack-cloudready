@@ -11,11 +11,9 @@ export default function SignIn({ providers }){
       {
         Object.values(providers).map((provider) => {
         return (
-          <div key={provider.name}>
-            <button onClick={() => signIn(provider.id)}>
+            <button key={provider.name} className='bg-blue-500 rounded shadow text-sm text-white h-full px-2' onClick={() => signIn(provider.id)}>
               Sign in with {provider.name}
             </button>
-          </div>
         );
       })}
     </div>

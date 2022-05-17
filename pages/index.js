@@ -44,7 +44,7 @@ export default function Home(props) {
         { renderUser() }
       </section>
       <div className='flex flex-col w-full h-full'>
-        <div className="py-4 text-white  bg-blue-500 sticky top-0 rounded-t-lg">
+        <div className="py-2 text-white  bg-blue-500 top-0 rounded-t-lg">
           <h1 className="text-center text-2xl font-semibold">Untitled Travel App</h1>
           <h2 className="mt-2 text-center">Chat Room</h2>
         </div>

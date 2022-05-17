@@ -6,20 +6,19 @@ import {useEffect, useState} from 'react';
 export const siteTitle = 'Plan your next get away'
 
 export default function Layout({children, home}) {
-  const isInitiallyVisible = false
-  const [isKeyboardVisible, setKeyboardVisible] = useState(isInitiallyVisible);
+  const [height, setHeight] = useState('')
+
+  const handleResize = () => {
+    setHeight(height === '' ? 'h-72 max-h-72' : '')
+  }
 
   useEffect(() => {
-
-    // toggle isKeyboardVisible on event listener triggered
-    window.visualViewport.addEventListener('resize', () => {
-      setKeyboardVisible(!isKeyboardVisible)
-      console.log('yup')
-    });
-  }, [isKeyboardVisible])
+    window.addEventListener('resize', handleResize)
+    return () => window.removeEventListener('resize', handleResize)
+  }, [height])
 
   return (
-    <div className={ styles.container }>
+    <div className={ `${ styles.container } ${height}` }>
       <Head>
         <link rel="icon" href="/favicon.ico"/>
         <meta
@@ -35,7 +34,7 @@ export default function Layout({children, home}) {
         <meta name="og:title" content={ siteTitle }/>
         <meta name="twitter:card" content="summary_large_image"/>
       </Head>
-      <main className={ `min-w-[50%] mb-8 ${ isKeyboardVisible ? 'max-h-1/2' : 'max-h-full' }` }>
+      <main className='min-w-[50%] mb-8 overflow-auto'>
         { children }
       </main>
       { !home && (
