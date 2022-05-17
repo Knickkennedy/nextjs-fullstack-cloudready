@@ -1,6 +1,7 @@
 import {useEffect, useRef, useState} from 'react'
 import io from 'socket.io-client'
 import Button from "./button";
+import {KeyboardAvoidingView, Platform} from "react-native-web";
 
 export default function Chatbox(props) {
   const [user, setUser] = useState('')
@@ -58,8 +59,22 @@ export default function Chatbox(props) {
     inputRef?.current?.focus()
   }
 
+  const style = {
+    display: 'flex',
+    flex: '1 1 0%',
+    '--tw-bg-opacity': '1',
+    'background-color': 'rgba(229, 231, 235, var(--tw-bg-opacity))',
+    'border-bottom-right-radius': '0.5rem',
+    'border-bottom-left-radius': '0.5rem',
+    'overflow': 'auto'
+  }
+
   return (
-    <div className="flex flex-col flex-1 bg-gray-200 rounded-b-lg overflow-auto">
+    <KeyboardAvoidingView
+      behavior={ Platform.OS === 'ios' ? 'padding' : 'height' }
+      style={style}
+      keyboardVerticalOffset={ 0 }
+    >
       <div className='flex flex-1 flex-col-reverse font-mono overflow-auto h-40 max-h-40'>
         { chatLog.length ? (
           chatLog.map((chat, i) => (
@@ -108,6 +123,6 @@ export default function Chatbox(props) {
           </div>
         </div>
       </div>
-    </div>
+    </KeyboardAvoidingView>
   )
 }
