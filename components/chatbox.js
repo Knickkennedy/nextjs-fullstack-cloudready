@@ -60,7 +60,7 @@ export default function Chatbox(props) {
 
   return (
     <div className="flex flex-col flex-1 bg-gray-200 rounded-b-lg overflow-auto">
-      <div className="flex flex-1 flex-col-reverse font-mono overflow-auto">
+      <div className='flex flex-1 flex-col-reverse font-mono overflow-auto h-40 max-h-40'>
         { chatLog.length ? (
           chatLog.map((chat, i) => (
             <div key={ "msg_" + i }
