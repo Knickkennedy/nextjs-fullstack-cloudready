@@ -6,10 +6,10 @@ import {useEffect, useState} from 'react';
 export const siteTitle = 'Plan your next get away'
 
 export default function Layout({children, home}) {
-  const [height, setHeight] = useState('')
+  const [height, setHeight] = useState('h-full max-h-full')
 
   const handleResize = () => {
-    setHeight(height === '' ? 'h-72 max-h-72' : '')
+    setHeight(height === 'h-full max-h-full' ? 'h-72 max-h-72' : 'h-full max-h-full')
   }
 
   useEffect(() => {
@@ -18,7 +18,7 @@ export default function Layout({children, home}) {
   }, [height])
 
   return (
-    <div className={ `${ styles.container } ${height}` }>
+    <div className={ `${ styles.container } ${height} sm:h-full sm:max-h-full` }>
       <Head>
         <link rel="icon" href="/favicon.ico"/>
         <meta
@@ -34,7 +34,7 @@ export default function Layout({children, home}) {
         <meta name="og:title" content={ siteTitle }/>
         <meta name="twitter:card" content="summary_large_image"/>
       </Head>
-      <main className='min-w-[50%] mb-8 overflow-auto'>
+      <main className='min-w-[50%] overflow-auto'>
         { children }
       </main>
       { !home && (

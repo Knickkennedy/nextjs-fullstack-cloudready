@@ -59,12 +59,12 @@ export default function Chatbox(props) {
   }
 
   return (
-    <div className="flex flex-col flex-1 bg-gray-200 rounded-b-lg">
-      <div className="flex flex-1 flex-col-reverse font-mono overflow-auto h-48 max-h-48">
+    <div className="flex flex-col flex-1 bg-gray-200 rounded-b-lg overflow-auto">
+      <div className="flex flex-1 flex-col-reverse font-mono overflow-auto">
         { chatLog.length ? (
           chatLog.map((chat, i) => (
             <div key={ "msg_" + i }
-                 className={ `bg-white p-2 mb-2 mx-4 ${ chat.user === user ? 'self-end rounded-l-md rounded-tr-md' : 'rounded-r-md rounded-tl-md' }` }>
+                 className={ `bg-white text-sm p-2 mb-1 mt-1 mx-4 ${ chat.user === user ? 'self-end rounded-l-md rounded-tr-md' : 'rounded-r-md rounded-tl-md' }` }>
                 <span>
                   { chat.user === user ? "" : chat.user + ': ' }
                 </span>
@@ -79,7 +79,7 @@ export default function Chatbox(props) {
       </div>
       <div className="bg-gray-400 p-4 h-20 relative bottom-0 rounded-b-lg">
         <div className="flex flex-row flex-1 h-full divide-gray-200 divide-x">
-          <div className="pr-2 flex-1">
+          <div className="pr-2 flex-1 text-sm">
             <input
               ref={ inputRef }
               type="text"
