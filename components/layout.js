@@ -18,7 +18,7 @@ export default function Layout({children, home}) {
   }, [height])
 
   return (
-    <div className={ `${ styles.container } ${height} sm:h-full sm:max-h-full` }>
+    <div className={ `${ styles.container } sm:h-full sm:max-h-full` }>
       <Head>
         <link rel="icon" href="/favicon.ico"/>
         <meta
