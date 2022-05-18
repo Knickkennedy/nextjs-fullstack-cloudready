@@ -80,7 +80,7 @@ export default function Chatbox(props) {
           { chatLog.length ? (
             chatLog.map((chat, i) => (
               <div key={ "msg_" + i }
-                   className={ `bg-white text-sm p-2 mb-1 mt-1 mx-4 ${ chat.user === user ? 'self-end rounded-l-md rounded-tr-md' : 'rounded-r-md rounded-tl-md' }` }>
+                   className={ `bg-white text-sm p-2 mb-1 mt-1 mx-4 max-w-[45%] ${ chat.user === user ? 'self-end rounded-l-md rounded-tr-md' : 'rounded-r-md rounded-tl-md' }` }>
                 <span>
                   { chat.user === user ? "" : chat.user + ': ' }
                 </span>
