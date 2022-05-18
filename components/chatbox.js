@@ -76,7 +76,7 @@ export default function Chatbox(props) {
         style={ style }
         keyboardVerticalOffset={ 0 }
       >
-        <div className='flex flex-auto flex-col-reverse font-mono overflow-auto h-40 max-h-40'>
+        <div className='flex flex-auto flex-col-reverse font-mono overflow-y-auto h-40 max-h-40'>
           { chatLog.length ? (
             chatLog.map((chat, i) => (
               <div key={ "msg_" + i }
