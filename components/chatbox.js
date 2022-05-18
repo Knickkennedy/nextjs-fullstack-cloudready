@@ -55,8 +55,7 @@ export default function Chatbox(props) {
       if (response.ok) setMessage('')
     }
 
-    const input = document.getElementById('chat-input')
-    input.focus()
+    inputRef?.current?.focus()
   }
 
   const style = {
@@ -110,7 +109,7 @@ export default function Chatbox(props) {
           <div className="flex flex-row flex-1 h-full divide-x divide-gray-200 ">
             <div className="pr-2 flex-1 text-sm">
               <TextInput
-                nativeID='chat-input'
+                ref={inputRef}
                 type="text"
                 value={ message }
                 placeholder={ connected ? "Type a message..." : "Connecting..." }
