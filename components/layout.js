@@ -18,7 +18,7 @@ export default function Layout({children, home}) {
   }, [height])
 
   return (
-    <div className={ `${ styles.container } sm:h-full sm:max-h-full` }>
+    <div className={ `${ styles.container } ` }>
       <Head>
         <link rel="icon" href="/favicon.ico"/>
         <meta
@@ -34,7 +34,7 @@ export default function Layout({children, home}) {
         <meta name="og:title" content={ siteTitle }/>
         <meta name="twitter:card" content="summary_large_image"/>
       </Head>
-      <main className='flex flex-col min-w-[50%] overflow-y-auto'>
+      <main className='flex flex-col min-w-[50%] h-full overflow-y-auto'>
         { children }
       </main>
       { !home && (
