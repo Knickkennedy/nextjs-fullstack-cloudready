@@ -88,6 +88,7 @@ export default function Chatbox(props) {
         behavior={ Platform.OS === 'ios' ? 'padding' : 'height' }
         style={ style }
         keyboardVerticalOffset={ 0 }
+        keyboardShouldPersistTaps={true}
       >
         <div className='flex flex-auto flex-col-reverse font-mono overflow-y-auto h-40 max-h-40'>
           { chatLog.length ? (
