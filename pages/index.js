@@ -186,7 +186,9 @@ export default function Home(props) {
 
       <style jsx="true" global="true">{ `
         html,
-        body {
+        body,
+        div#__next{
+          height: 100%;
           padding: 0;
           margin: 0;
           font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto,
