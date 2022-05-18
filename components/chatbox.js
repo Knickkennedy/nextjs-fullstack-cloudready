@@ -1,7 +1,7 @@
 import {useEffect, useRef, useState} from 'react'
 import io from 'socket.io-client'
 import Button from "./button";
-import {KeyboardAvoidingView, Platform, TextInput} from "react-native-web";
+import {KeyboardAvoidingView, Platform, ScrollView, TextInput} from "react-native-web";
 
 export default function Chatbox(props) {
   const [user, setUser] = useState('')
@@ -81,6 +81,10 @@ export default function Chatbox(props) {
     'background-color': 'white'
   }
 
+  const scrollableStyle = {
+    'flex-grow': '0'
+  }
+
   return (
     <>
       <KeyboardAvoidingView
@@ -105,42 +109,44 @@ export default function Chatbox(props) {
             </div>
           ) }
         </div>
-        <div className="bg-gray-400 p-4 h-20 relative bottom-0 rounded-b-lg">
-          <div className="flex flex-row flex-1 h-full divide-x divide-gray-200 ">
-            <div className="pr-2 flex-1 text-sm">
-              <TextInput
-                ref={ inputRef }
-                type="text"
-                value={ message }
-                placeholder={ connected ? "Type a message..." : "Connecting..." }
-                style={textInputStyle}
-                disabled={ !connected }
-                onSubmitEditing={(e) => e.preventClose()}
-                onChange={ (e) => {
-                  setMessage(e.target.value);
-                } }
-                onKeyPress={ (e) => {
-                  if (e.key === "Enter") {
-                    sendMessage();
-                  }
-                } }
-              />
-            </div>
-            <div className="flex flex-col justify-center items-stretch pl-2">
-              <Button
-                id='send-button'
-                className="bg-blue-500 rounded shadow text-sm text-white h-full px-2"
-                onClick={ (e) => {
-                  e.preventDefault()
-                  sendMessage()
-                } }
-                disabled={ !connected }
-              >
-                SEND
-              </Button>
+        <ScrollView keyboardShouldPersistTaps='handled' style={scrollableStyle}>
+          <div className="bg-gray-400 p-4 h-20 relative bottom-0 rounded-b-lg">
+            <div className="flex flex-row flex-1 h-full divide-x divide-gray-200 ">
+              <div className="pr-2 flex-1 text-sm">
+                <TextInput
+                  ref={ inputRef }
+                  type="text"
+                  value={ message }
+                  placeholder={ connected ? "Type a message..." : "Connecting..." }
+                  style={ textInputStyle }
+                  disabled={ !connected }
+                  onSubmitEditing={ (e) => e.preventClose() }
+                  onChange={ (e) => {
+                    setMessage(e.target.value);
+                  } }
+                  onKeyPress={ (e) => {
+                    if (e.key === "Enter") {
+                      sendMessage();
+                    }
+                  } }
+                />
+              </div>
+              <div className="flex flex-col justify-center items-stretch pl-2">
+                <Button
+                  id='send-button'
+                  className="bg-blue-500 rounded shadow text-sm text-white h-full px-2"
+                  onClick={ (e) => {
+                    e.preventDefault()
+                    sendMessage()
+                  } }
+                  disabled={ !connected }
+                >
+                  SEND
+                </Button>
+              </div>
             </div>
           </div>
-        </div>
+        </ScrollView>
       </KeyboardAvoidingView>
     </>
   )
