@@ -109,7 +109,7 @@ export default function Chatbox(props) {
             </div>
           ) }
         </div>
-        <ScrollView keyboardShouldPersistTaps='handled' style={scrollableStyle}>
+        <ScrollView keyboardShouldPersistTaps='always' style={scrollableStyle}>
           <div className="bg-gray-400 p-4 h-20 relative bottom-0 rounded-b-lg">
             <div className="flex flex-row flex-1 h-full divide-x divide-gray-200 ">
               <div className="pr-2 flex-1 text-sm">
