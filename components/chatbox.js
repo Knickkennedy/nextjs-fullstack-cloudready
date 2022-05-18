@@ -32,6 +32,13 @@ export default function Chatbox(props) {
 
     if (socket) return () => socket.disconnect()
 
+    const button = document.getElementById('send-button')
+    if(button){
+      button.addEventListener('touchend', e => {
+        e.preventDefault()
+        sendMessage()
+      })
+    }
   }, [])
 
   useEffect(() => {
@@ -57,10 +64,6 @@ export default function Chatbox(props) {
     }
 
     inputRef?.current?.focus()
-    let t = document.getElementById('chat-input')
-    t.addEventListener('blur', (e) => {
-      t.focus()
-    })
   }
 
   const style = {
@@ -120,6 +123,7 @@ export default function Chatbox(props) {
             </div>
             <div className="flex flex-col justify-center items-stretch pl-2">
               <Button
+                id='send-button'
                 className="bg-blue-500 rounded shadow text-sm text-white h-full px-2"
                 onClick={ sendMessage }
                 disabled={ !connected }
