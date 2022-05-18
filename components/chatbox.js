@@ -37,7 +37,8 @@ export default function Chatbox(props) {
     setUser(props.user)
   }, [props.user])
 
-  const sendMessage = async () => {
+  const sendMessage = async (e) => {
+    e.preventDefault()
     if (message) {
       const msg = {
         user: user,
@@ -121,7 +122,7 @@ export default function Chatbox(props) {
                 } }
                 onKeyPress={ (e) => {
                   if (e.key === "Enter") {
-                    sendMessage();
+                    sendMessage(e);
                   }
                 } }
               />
@@ -130,7 +131,7 @@ export default function Chatbox(props) {
               <Button
                 id='send-button'
                 className="bg-blue-500 rounded shadow text-sm text-white h-full px-2"
-                onClick={ sendMessage }
+                onClick={ (e) => sendMessage(e) }
                 disabled={ !connected }
               >
                 SEND
