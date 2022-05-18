@@ -65,7 +65,9 @@ export default function Chatbox(props) {
     'background-color': 'rgba(229, 231, 235, var(--tw-bg-opacity))',
     'border-bottom-right-radius': '0.5rem',
     'border-bottom-left-radius': '0.5rem',
-    'overflow-y': 'auto'
+    'overflow-y': 'auto',
+    'justify-content': 'flex-end'
+
   }
 
   const textInputStyle = {
@@ -78,19 +80,16 @@ export default function Chatbox(props) {
     'border-color': 'rgba(156, 163, 175, var(--tw-border-opacity))',
     'padding-left': '0.5rem',
     'padding-right': '0.5rem',
-    'background-color': 'white'
-  }
-
-  const scrollableStyle = {
-    'flex-grow': '0'
+    'background-color': 'white',
   }
 
   return (
     <>
-      <KeyboardAvoidingView
+      <ScrollView
         behavior={ Platform.OS === 'ios' ? 'padding' : 'height' }
         style={ style }
         keyboardVerticalOffset={ 0 }
+        keyboardShouldPersist='always'
       >
         <div className='flex flex-auto flex-col-reverse font-mono overflow-y-auto h-40 max-h-40'>
           { chatLog.length ? (
@@ -109,45 +108,42 @@ export default function Chatbox(props) {
             </div>
           ) }
         </div>
-        <ScrollView keyboardShouldPersistTaps='always' style={scrollableStyle}>
-          <div className="bg-gray-400 p-4 h-20 relative bottom-0 rounded-b-lg">
-            <div className="flex flex-row flex-1 h-full divide-x divide-gray-200 ">
-              <div className="pr-2 flex-1 text-sm">
-                <TextInput
-                  ref={ inputRef }
-                  type="text"
-                  value={ message }
-                  placeholder={ connected ? "Type a message..." : "Connecting..." }
-                  style={ textInputStyle }
-                  disabled={ !connected }
-                  onSubmitEditing={ (e) => e.preventClose() }
-                  onChange={ (e) => {
-                    setMessage(e.target.value);
-                  } }
-                  onKeyPress={ (e) => {
-                    if (e.key === "Enter") {
-                      sendMessage();
-                    }
-                  } }
-                />
-              </div>
-              <div className="flex flex-col justify-center items-stretch pl-2">
-                <Button
-                  id='send-button'
-                  className="bg-blue-500 rounded shadow text-sm text-white h-full px-2"
-                  onClick={ (e) => {
-                    e.preventDefault()
-                    sendMessage()
-                  } }
-                  disabled={ !connected }
-                >
-                  SEND
-                </Button>
-              </div>
+        <div className="bg-gray-400 p-4 h-20 relative bottom-0 rounded-b-lg">
+          <div className="flex flex-row flex-1 h-full divide-x divide-gray-200 ">
+            <div className="pr-2 flex-1 text-sm">
+              <TextInput
+                ref={ inputRef }
+                type="text"
+                value={ message }
+                placeholder={ connected ? "Type a message..." : "Connecting..." }
+                style={ textInputStyle }
+                disabled={ !connected }
+                onChange={ (e) => {
+                  setMessage(e.target.value);
+                } }
+                onKeyPress={ (e) => {
+                  if (e.key === "Enter") {
+                    sendMessage();
+                  }
+                } }
+              />
+            </div>
+            <div className="flex flex-col justify-center items-stretch pl-2">
+              <Button
+                id='send-button'
+                className="bg-blue-500 rounded shadow text-sm text-white h-full px-2"
+                onClick={ (e) => {
+                  e.preventDefault()
+                  sendMessage()
+                } }
+                disabled={ !connected }
+              >
+                SEND
+              </Button>
             </div>
           </div>
-        </ScrollView>
-      </KeyboardAvoidingView>
+        </div>
+      </ScrollView>
     </>
   )
 }
