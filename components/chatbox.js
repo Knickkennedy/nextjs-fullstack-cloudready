@@ -1,7 +1,7 @@
 import {useEffect, useRef, useState} from 'react'
 import io from 'socket.io-client'
 import Button from "./button";
-import {KeyboardAvoidingView, Platform, ScrollView, TextInput} from "react-native-web";
+import {KeyboardAvoidingView, Platform, TextInput} from "react-native-web";
 
 export default function Chatbox(props) {
   const [user, setUser] = useState('')
@@ -55,7 +55,8 @@ export default function Chatbox(props) {
       if (response.ok) setMessage('')
     }
 
-    inputRef?.current?.focus()
+    const input = document.getElementById('chat-input')
+    input.focus()
   }
 
   const style = {
@@ -66,8 +67,6 @@ export default function Chatbox(props) {
     'border-bottom-right-radius': '0.5rem',
     'border-bottom-left-radius': '0.5rem',
     'overflow-y': 'auto',
-    'justify-content': 'flex-end'
-
   }
 
   const textInputStyle = {
@@ -85,11 +84,10 @@ export default function Chatbox(props) {
 
   return (
     <>
-      <ScrollView
+      <KeyboardAvoidingView
         behavior={ Platform.OS === 'ios' ? 'padding' : 'height' }
         style={ style }
         keyboardVerticalOffset={ 0 }
-        keyboardShouldPersist='always'
       >
         <div className='flex flex-auto flex-col-reverse font-mono overflow-y-auto h-40 max-h-40'>
           { chatLog.length ? (
@@ -112,7 +110,7 @@ export default function Chatbox(props) {
           <div className="flex flex-row flex-1 h-full divide-x divide-gray-200 ">
             <div className="pr-2 flex-1 text-sm">
               <TextInput
-                ref={ inputRef }
+                nativeID='chat-input'
                 type="text"
                 value={ message }
                 placeholder={ connected ? "Type a message..." : "Connecting..." }
@@ -143,7 +141,7 @@ export default function Chatbox(props) {
             </div>
           </div>
         </div>
-      </ScrollView>
+      </KeyboardAvoidingView>
     </>
   )
 }
