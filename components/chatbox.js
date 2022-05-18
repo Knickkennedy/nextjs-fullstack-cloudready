@@ -66,7 +66,7 @@ export default function Chatbox(props) {
     'background-color': 'rgba(229, 231, 235, var(--tw-bg-opacity))',
     'border-bottom-right-radius': '0.5rem',
     'border-bottom-left-radius': '0.5rem',
-    'overflow': 'auto'
+    'overflow-y': 'auto'
   }
 
   return (
