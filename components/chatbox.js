@@ -68,19 +68,6 @@ export default function Chatbox(props) {
     'overflow-y': 'auto',
   }
 
-  const textInputStyle = {
-    'width': '100%',
-    'height': '100%',
-    'border-radius': '0.25rem',
-    '--tw-shadow': '0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06)',
-    'box-shadow': 'var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow)',
-    '--tw-border-opacity': '1',
-    'border-color': 'rgba(156, 163, 175, var(--tw-border-opacity))',
-    'padding-left': '0.5rem',
-    'padding-right': '0.5rem',
-    'background-color': 'white',
-  }
-
   return (
     <>
       <KeyboardAvoidingView
@@ -108,12 +95,12 @@ export default function Chatbox(props) {
         <div className="bg-gray-400 p-4 h-20 relative bottom-0 rounded-b-lg">
           <div className="flex flex-row flex-1 h-full divide-x divide-gray-200 ">
             <div className="pr-2 flex-1 text-sm">
-              <TextInput
-                ref={inputRef}
+              <input
+                ref={ inputRef }
                 type="text"
                 value={ message }
                 placeholder={ connected ? "Type a message..." : "Connecting..." }
-                style={ textInputStyle }
+                className="w-full h-full rounded shadow border-gray-400 border px-2"
                 disabled={ !connected }
                 onChange={ (e) => {
                   setMessage(e.target.value);
@@ -129,10 +116,7 @@ export default function Chatbox(props) {
               <Button
                 id='send-button'
                 className="bg-blue-500 rounded shadow text-sm text-white h-full px-2"
-                onClick={ (e) => {
-                  e.preventDefault()
-                  sendMessage()
-                } }
+                onClick={ sendMessage }
                 disabled={ !connected }
               >
                 SEND
