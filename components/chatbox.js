@@ -37,8 +37,7 @@ export default function Chatbox(props) {
     setUser(props.user)
   }, [props.user])
 
-  const sendMessage = async (e) => {
-    e.preventDefault()
+  const sendMessage = async () => {
     if (message) {
       const msg = {
         user: user,
@@ -88,7 +87,6 @@ export default function Chatbox(props) {
         behavior={ Platform.OS === 'ios' ? 'padding' : 'height' }
         style={ style }
         keyboardVerticalOffset={ 0 }
-        keyboardShouldPersistTaps={true}
       >
         <div className='flex flex-auto flex-col-reverse font-mono overflow-y-auto h-40 max-h-40'>
           { chatLog.length ? (
@@ -111,19 +109,19 @@ export default function Chatbox(props) {
           <div className="flex flex-row flex-1 h-full divide-x divide-gray-200 ">
             <div className="pr-2 flex-1 text-sm">
               <TextInput
-                blurOnSubmit={false}
                 ref={ inputRef }
                 type="text"
                 value={ message }
                 placeholder={ connected ? "Type a message..." : "Connecting..." }
                 style={textInputStyle}
                 disabled={ !connected }
+                onSubmitEditing={(e) => e.preventClose()}
                 onChange={ (e) => {
                   setMessage(e.target.value);
                 } }
                 onKeyPress={ (e) => {
                   if (e.key === "Enter") {
-                    sendMessage(e);
+                    sendMessage();
                   }
                 } }
               />
@@ -132,7 +130,10 @@ export default function Chatbox(props) {
               <Button
                 id='send-button'
                 className="bg-blue-500 rounded shadow text-sm text-white h-full px-2"
-                onClick={ (e) => sendMessage(e) }
+                onClick={ (e) => {
+                  e.preventDefault()
+                  sendMessage()
+                } }
                 disabled={ !connected }
               >
                 SEND
