@@ -34,7 +34,7 @@ export default function Layout({children, home}) {
         <meta name="og:title" content={ siteTitle }/>
         <meta name="twitter:card" content="summary_large_image"/>
       </Head>
-      <main className='min-w-[50%] overflow-auto'>
+      <main className='min-w-[50%] overflow-y-auto'>
         { children }
       </main>
       { !home && (

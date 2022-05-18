@@ -178,7 +178,7 @@ export default function Home(props) {
 
         @media (max-width: 600px) {
           .grid {
-            width: 100%;
+            width: 95%;
             flex-direction: column;
           }
         }
