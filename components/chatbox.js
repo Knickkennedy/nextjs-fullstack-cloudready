@@ -33,10 +33,12 @@ export default function Chatbox(props) {
     if (socket) return () => socket.disconnect()
 
     const button = document.getElementById('send-button')
+    const input = document.getElementById('chat-input')
     if(button){
       button.addEventListener('touchend', e => {
         e.preventDefault()
         sendMessage()
+        input.focus()
       })
     }
   }, [])
