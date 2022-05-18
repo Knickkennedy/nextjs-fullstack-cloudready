@@ -57,6 +57,10 @@ export default function Chatbox(props) {
     }
 
     inputRef?.current?.focus()
+    let t = document.getElementById('chat-input')
+    t.addEventListener('blur', (e) => {
+      t.focus()
+    })
   }
 
   const style = {
@@ -97,6 +101,7 @@ export default function Chatbox(props) {
           <div className="flex flex-row flex-1 h-full divide-gray-200 divide-x">
             <div className="pr-2 flex-1 text-sm">
               <input
+                id='chat-input'
                 ref={ inputRef }
                 type="text"
                 value={ message }
